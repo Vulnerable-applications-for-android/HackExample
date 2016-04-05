@@ -1,7 +1,5 @@
 package com.tcolligan.hackexample.networking;
 
-import android.content.Context;
-
 import com.tcolligan.hackexample.user.User;
 import com.tcolligan.hackexample.user.UserManager;
 
