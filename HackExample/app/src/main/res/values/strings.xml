@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">HackExample</string>
+    <string name="input_username_text">Username</string>
+    <string name="input_password_text">Password</string>
+    <string name="login_button_text">LOGIN</string>
 </resources>
