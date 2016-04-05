@@ -1,4 +1,4 @@
-package com.tcolligan.hackexample;
+package com.tcolligan.hackexample.activities;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.tcolligan.hackexample.R;
+import com.tcolligan.hackexample.Utils;
 import com.tcolligan.hackexample.networking.NetworkingHelper;
 import com.tcolligan.hackexample.networking.PostRequestAsyncTask;
 import com.tcolligan.hackexample.networking.Response;
