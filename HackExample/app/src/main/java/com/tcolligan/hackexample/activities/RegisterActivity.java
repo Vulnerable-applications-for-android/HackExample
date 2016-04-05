@@ -2,8 +2,8 @@ package com.tcolligan.hackexample.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -21,7 +21,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-public class LoginActivity extends AppCompatActivity
+public class RegisterActivity extends AppCompatActivity
 {
     // ================================================================================
     // Static Intent Methods
@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity
 
     public static Intent getIntent(Context context)
     {
-        return new Intent(context, LoginActivity.class);
+        return new Intent(context, RegisterActivity.class);
     }
 
     // ================================================================================
@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity
 
     private EditText usernameEditText;
     private EditText passwordEditText;
+    private EditText confirmPasswordEditText;
 
     // ================================================================================
     // Life-Cycle Methods
@@ -47,23 +48,28 @@ public class LoginActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_register);
 
         usernameEditText = (EditText) findViewById(R.id.usernameEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
-
-        UserManager.getInstance().loadCurrentUser(this);
+        confirmPasswordEditText = (EditText) findViewById(R.id.confirmPasswordEditText);
     }
 
     // ================================================================================
     // Button Click Methods
     // ================================================================================
 
-    public void onLoginButtonClicked(View v)
+    public void onRegisterButtonClicked(View v)
     {
         if (!inputIsValid())
         {
             Toast.makeText(getApplicationContext(), R.string.invalid_input_toast_text, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!passwordsMatch())
+        {
+            Toast.makeText(getApplicationContext(), R.string.passwords_no_match_toast_text, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -76,12 +82,7 @@ public class LoginActivity extends AppCompatActivity
         String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
-        login(username, password);
-    }
-
-    public void onRegisterButtonClicked(View v)
-    {
-        startActivity(RegisterActivity.getIntent(this));
+        register(username, password);
     }
 
     // ================================================================================
@@ -92,11 +93,22 @@ public class LoginActivity extends AppCompatActivity
     {
         String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
+        String confirmPassword = confirmPasswordEditText.getText().toString();
 
-        return !TextUtils.isEmpty(username) && !TextUtils.isEmpty(password);
+        return !TextUtils.isEmpty(username) &&
+                !TextUtils.isEmpty(password) &&
+                !TextUtils.isEmpty(confirmPassword);
     }
 
-    private void login(String username, String password)
+    private boolean passwordsMatch()
+    {
+        String password = passwordEditText.getText().toString();
+        String confirmPassword = confirmPasswordEditText.getText().toString();
+
+        return password.equals(confirmPassword);
+    }
+
+    private void register(String username, String password)
     {
         String hashedPassword = Utils.md5(password);
 
@@ -129,6 +141,7 @@ public class LoginActivity extends AppCompatActivity
             {
                 Toast.makeText(getApplicationContext(), R.string.error_toast_text, Toast.LENGTH_SHORT).show();
             }
-        }).execute(NetworkingHelper.LOGIN);
+        }).execute(NetworkingHelper.REGISTER);
     }
+
 }

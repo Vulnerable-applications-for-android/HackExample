@@ -2,9 +2,11 @@
     <string name="app_name">HackExample</string>
     <string name="input_username_text">Username</string>
     <string name="input_password_text">Password</string>
+    <string name="input_confirm_password_text">Confirm Password</string>
     <string name="login_button_text">LOGIN</string>
     <string name="register_button_text">REGISTER</string>
     <string name="invalid_input_toast_text">Invalid Input!</string>
+    <string name="passwords_no_match_toast_text">Passwords do not match!</string>
     <string name="no_internet_toast_text">No Internet connection detected!</string>
     <string name="error_toast_text">An error occurred, please try again later!</string>
 </resources>
