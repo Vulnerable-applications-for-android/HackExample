@@ -34,21 +34,22 @@ public class NetworkingHelper
         return createPostDict(false);
     }
 
-    public static HashMap<String, String> createPostDictWithLoginToken()
+    public static HashMap<String, String> createPostDictWithUserInfo()
     {
         return createPostDict(true);
     }
 
-    private static HashMap<String, String> createPostDict(boolean hasLoginToken)
+    private static HashMap<String, String> createPostDict(boolean hasUserInfo)
     {
         HashMap<String, String> postDataParams = new HashMap<>();
         User currentUser = UserManager.getInstance().getCurrentUser();
 
         postDataParams.put("api_token", API_TOKEN);
 
-        if (hasLoginToken)
+        if (hasUserInfo)
         {
             postDataParams.put("login_token", currentUser.getLoginToken());
+            postDataParams.put("user_id", Integer.toString(currentUser.getUserId()));
         }
 
         return postDataParams;

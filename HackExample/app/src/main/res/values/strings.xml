@@ -9,4 +9,7 @@
     <string name="passwords_no_match_toast_text">Passwords do not match!</string>
     <string name="no_internet_toast_text">No Internet connection detected!</string>
     <string name="error_toast_text">An error occurred, please try again later!</string>
+    <string name="current_debt_text">Current Debt: %1$s</string>
+    <string name="buy_stuff_button_text">Buy $10 Stuff</string>
+    <string name="logout_button_text">LOGOUT</string>
 </resources>

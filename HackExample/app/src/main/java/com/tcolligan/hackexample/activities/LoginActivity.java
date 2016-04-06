@@ -53,6 +53,14 @@ public class LoginActivity extends AppCompatActivity
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
 
         UserManager.getInstance().loadCurrentUser(this);
+        User currentUser = UserManager.getInstance().getCurrentUser();
+
+        // Already logged in
+        if (currentUser != null)
+        {
+            startActivity(BuyStuffActivity.getIntent(this));
+            finish();
+        }
     }
 
     // ================================================================================
@@ -118,7 +126,8 @@ public class LoginActivity extends AppCompatActivity
                     User loggedInUser = new User(userData);
                     UserManager.getInstance().saveNewUser(context, loggedInUser);
 
-                    // TODO: Launch main screen
+                    startActivity(BuyStuffActivity.getIntent(LoginActivity.this));
+                    finish();
                 }
 
                 response.displayMessageToastIfNecessary(context);

@@ -130,7 +130,8 @@ public class RegisterActivity extends AppCompatActivity
                     User loggedInUser = new User(userData);
                     UserManager.getInstance().saveNewUser(context, loggedInUser);
 
-                    // TODO: Launch main screen
+                    startActivity(BuyStuffActivity.getIntent(RegisterActivity.this));
+                    finish();
                 }
 
                 response.displayMessageToastIfNecessary(context);
