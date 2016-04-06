@@ -5,9 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tcolligan.hackexample.BuildConfig;
+import com.tcolligan.hackexample.DevOptions;
 import com.tcolligan.hackexample.R;
 import com.tcolligan.hackexample.networking.NetworkingHelper;
 import com.tcolligan.hackexample.networking.PostRequestAsyncTask;
@@ -35,6 +38,7 @@ public class BuyStuffActivity extends AppCompatActivity
 
     private static final double PRICE = 10.00;
     private TextView currentDebtTextView;
+    private Button devOptionsButton;
 
     // ================================================================================
     // Life-cycle Methods
@@ -47,6 +51,9 @@ public class BuyStuffActivity extends AppCompatActivity
         setContentView(R.layout.activity_buy_stuff);
 
         currentDebtTextView = (TextView) findViewById(R.id.currentDebtTextView);
+        devOptionsButton = (Button) findViewById(R.id.devOptionsButton);
+
+        devOptionsButton.setVisibility(BuildConfig.DEBUG ? View.VISIBLE : View.GONE);
         setCurrentDebt(0.0);
     }
 
@@ -63,8 +70,10 @@ public class BuyStuffActivity extends AppCompatActivity
 
     public void onBuyStuffButtonClicked(View v)
     {
+        double price = DevOptions.stuffIsFree(this) ? 0.0 : PRICE;
+        
         HashMap<String, String> postDataParams = NetworkingHelper.createPostDictWithUserInfo();
-        postDataParams.put("additional_debt", Double.toString(PRICE));
+        postDataParams.put("additional_debt", Double.toString(price));
 
         new PostRequestAsyncTask(postDataParams, new PostRequestAsyncTask.PostRequestTaskListener()
         {
@@ -94,6 +103,11 @@ public class BuyStuffActivity extends AppCompatActivity
 
         startActivity(LoginActivity.getIntent(this));
         finish();
+    }
+
+    public void onDevOptionsButtonClicked(View v)
+    {
+        startActivity(DevOptionsActivity.getIntent(this));
     }
 
     // ================================================================================

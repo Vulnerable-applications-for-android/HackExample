@@ -12,4 +12,5 @@
     <string name="current_debt_text">Current Debt: %1$s</string>
     <string name="buy_stuff_button_text">Buy $10 Stuff</string>
     <string name="logout_button_text">LOGOUT</string>
+    <string name="dev_options_text">Dev Options</string>
 </resources>
