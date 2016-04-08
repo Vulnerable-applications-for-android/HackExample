@@ -1,5 +1,6 @@
 package com.tcolligan.hackexample.activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -38,6 +39,7 @@ public class LoginActivity extends AppCompatActivity
 
     private EditText usernameEditText;
     private EditText passwordEditText;
+    private ProgressDialog progressDialog;
 
     // ================================================================================
     // Life-Cycle Methods
@@ -61,6 +63,10 @@ public class LoginActivity extends AppCompatActivity
             startActivity(BuyStuffActivity.getIntent(this));
             finish();
         }
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getString(R.string.please_wait));
+        progressDialog.setCancelable(true);
     }
 
     // ================================================================================
@@ -113,6 +119,8 @@ public class LoginActivity extends AppCompatActivity
         postDataParams.put("username", username);
         postDataParams.put("password", hashedPassword);
 
+        progressDialog.show();
+
         new PostRequestAsyncTask(postDataParams, new PostRequestAsyncTask.PostRequestTaskListener()
         {
             @Override
@@ -130,12 +138,14 @@ public class LoginActivity extends AppCompatActivity
                     finish();
                 }
 
+                progressDialog.dismiss();
                 response.displayMessageToastIfNecessary(context);
             }
 
             @Override
             public void onInvalidResponse()
             {
+                progressDialog.dismiss();
                 Toast.makeText(getApplicationContext(), R.string.error_toast_text, Toast.LENGTH_SHORT).show();
             }
         }).execute(NetworkingHelper.LOGIN);

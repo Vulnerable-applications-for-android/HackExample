@@ -1,5 +1,6 @@
 package com.tcolligan.hackexample.activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ public class BuyStuffActivity extends AppCompatActivity
     private static final double PRICE = 10.00;
     private TextView currentDebtTextView;
     private Button devOptionsButton;
+    private ProgressDialog progressDialog;
 
     // ================================================================================
     // Life-cycle Methods
@@ -53,8 +55,12 @@ public class BuyStuffActivity extends AppCompatActivity
         currentDebtTextView = (TextView) findViewById(R.id.currentDebtTextView);
         devOptionsButton = (Button) findViewById(R.id.devOptionsButton);
 
-        devOptionsButton.setVisibility(BuildConfig.DEBUG ? View.VISIBLE : View.GONE);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getString(R.string.please_wait));
+        progressDialog.setCancelable(true);
+
         setCurrentDebt(0.0);
+        devOptionsButton.setVisibility(BuildConfig.DEBUG ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -75,6 +81,8 @@ public class BuyStuffActivity extends AppCompatActivity
         HashMap<String, String> postDataParams = NetworkingHelper.createPostDictWithUserInfo();
         postDataParams.put("additional_debt", Double.toString(price));
 
+        progressDialog.show();
+
         new PostRequestAsyncTask(postDataParams, new PostRequestAsyncTask.PostRequestTaskListener()
         {
             @Override
@@ -85,6 +93,7 @@ public class BuyStuffActivity extends AppCompatActivity
                     fetchCurrentDebt();
                 }
 
+                progressDialog.dismiss();
                 Context context = getApplicationContext();
                 response.displayMessageToastIfNecessary(context);
             }
@@ -92,6 +101,7 @@ public class BuyStuffActivity extends AppCompatActivity
             @Override
             public void onInvalidResponse()
             {
+                progressDialog.dismiss();
                 Toast.makeText(getApplicationContext(), R.string.error_toast_text, Toast.LENGTH_SHORT).show();
             }
         }).execute(NetworkingHelper.ADD_DEBT);

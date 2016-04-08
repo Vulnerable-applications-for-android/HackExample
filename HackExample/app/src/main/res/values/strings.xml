@@ -13,4 +13,5 @@
     <string name="buy_stuff_button_text">Buy $10 Stuff</string>
     <string name="logout_button_text">LOGOUT</string>
     <string name="dev_options_text">Dev Options</string>
+    <string name="please_wait">Please Wait&#8230;</string>
 </resources>
