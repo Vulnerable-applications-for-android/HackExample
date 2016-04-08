@@ -15,3 +15,21 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-dontoptimize
+-dontshrink
+-dontpreverify
+
+-keepattributes InnerClasses,EnclosingMethod
+
+-keep class javax.** { *; }
+-dontwarn javax.**
+-keep class org.** { *; }
+-dontwarn org.**
+-keep class com.facebook.** { *; }
+-dontwarn com.facebook.**
+-keep class com.fasterxml.** { *; }
+-dontwarn com.fasterxml.**
+-keep class android.** { *; }
+-dontwarn android.**
+-keep class sun.** { *; }
+-dontwarn sun.**
