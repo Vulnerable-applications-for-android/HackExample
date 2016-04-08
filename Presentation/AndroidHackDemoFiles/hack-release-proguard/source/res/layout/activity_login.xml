@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:paddingLeft="@dimen/activity_horizontal_margin" android:paddingTop="@dimen/activity_vertical_margin" android:paddingRight="@dimen/activity_horizontal_margin" android:paddingBottom="@dimen/activity_vertical_margin" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:gravity="center_horizontal" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <android.support.design.widget.TextInputLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_margin="@dimen/spacing_margin">
+            <EditText android:id="@id/usernameEditText" android:layout_width="fill_parent" android:layout_height="wrap_content" android:hint="@string/input_username_text" android:inputType="text" android:imeOptions="actionNext" />
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_margin="@dimen/spacing_margin">
+            <EditText android:id="@id/passwordEditText" android:layout_width="fill_parent" android:layout_height="wrap_content" android:hint="@string/input_password_text" android:inputType="textPassword" android:imeOptions="actionDone" />
+        </android.support.design.widget.TextInputLayout>
+        <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="@dimen/spacing_margin" android:text="@string/login_button_text" android:onClick="onLoginButtonClicked" />
+        <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="@dimen/spacing_margin" android:text="@string/register_button_text" android:onClick="onRegisterButtonClicked" />
+    </LinearLayout>
+</RelativeLayout>

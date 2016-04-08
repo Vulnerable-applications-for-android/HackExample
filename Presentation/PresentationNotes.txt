@@ -1,0 +1,87 @@
+- Talk Slides 1-3, Attack Vectors
+
+- Show Android Application 
+	- Simple android application, lets you login/register/buy stuff
+	- Mimimize and walk through android application on emulator
+	- Back to slides
+
+- Slide 4, Attacking the OS
+	- What is adb? (android debug bridge) 
+		- Terminal command, comes with Android SDK
+		- Allows you to access android device via usb
+	- What is a rooted android device?
+		- You have root access to the device, admin access to all files on the device
+		- Can also directly manipulate the running memory on the device
+	- Can tell a device is rooted using abb shell
+		- shell@t0ltevzw:/ $ vs root@vbox86p:/ #
+
+- Slide 5, Into Terminal
+	- Go into terminal
+		- adb shell into Android emulator
+		- cd into data/data/com.tcolligan.hackexample
+	- Show login token inside Shared Prefs, what are Shared Prefs?
+		- cat xml file in shared prefs
+		- show login token, what is a Login token?
+		- shared_prefs Public vs. Private save mode. Application Sandbox.
+		- Make sure you save your app data in private mode, android application sandbox
+			a. anything saved on external storage, sd card, can be read and tampered with
+			b. rooted devices, doesn't matter, you can encrypt your data but still kind of pointless
+	- Show launch activities 
+		- am start -n com.tcolligan.hackexample/com.tcolligan.hackexample.activities.DevOptionsActivity
+		- Be careful with secret debug screens that you put in your app
+	- Can't do these things on non-rooted phones
+	- Back to slides
+
+- Slide 6, Attacking the Mobile Application
+	- How to retrieve apk
+	- Decompile the apk: website and command line tool
+	- Android code compile process
+	- Help prevent this with Dexguard and Proguard
+
+- Slide 7, Look at Source Code!
+	- Show apk, zip, & dex
+	- Show Decompiled Source Code
+	- Show decompiled no-proguard source code
+	- Talk about proguard and dexguard 
+		a. http://developer.android.com/tools/help/proguard.html 
+		b. https://www.guardsquare.com/dexguard
+	i. Proguard vs. No Proguard, NetworkingHelper class
+	ii. Possible to re-compile the code, tricky to get working
+
+- API Tokens in Source Code
+	i. Remove from source code and use it myself
+	ii. Do not put the tokens in the source code, send it from server after login
+	iii. Base64 Encode api tokens
+
+- 3rd Attack Vector: Attacking the mobile application’s backend/web api
+	- Something interesting about URLs?
+	i. HTTP
+	ii. Mitma, what is it? (Man in the middle attack)
+	iii. Custom SSL Certificates
+	iv. Probe endpoints for vulnerabilities
+
+- Show NetworkingHelper Login URL and LoginActivity
+	i. Not sending palintex password over http, hashed, what is hashing? different from encryption? rainbow tables?
+	ii. What is md5?
+		a. http://md5.gromweb.com/
+		b. Why should I not use MD5? 
+		c. If you forget your password and the website emails it back to you, bad news, plaintext.
+	ii. Send data to server via POSTMAN
+		a. Could change users password via change password endpoint
+		b. SQL Injection, what is it?
+			i. ' or ''='
+			ii. Show User.php, SELECT * FROM user_credentials WHERE username = '$username' AND password = '$hashedPassword'
+10. Show BuyStuffActivity code
+	1. Never set the price of items in the android app, the app should be dumb as a rock
+
+Summary
+1. Applications running on rooted devices are much easier to hack into. Extremely difficult to secure applications on rooted devices.
+2. Make sure you save all of your application data in the private application sandbox
+3. Be careful with what setting you allow in your DevOptions screens, can be automatically launched on rooted devices
+4. Easy to download an apk and de-compile it, use proguard to obfuscate the code
+5. Avoid putting api tokens in your source code, have them on your server behind a login process if possible, base64 can slow hackers down
+6. Always use HTTPS to avoid mitma, be careful with code that accepts self signed SSL certs
+7. Do your password hashing on the server, do not use md5 or sha1, sha256 or BCrypt, slower hashing alg the better
+8. Make sure your api endpoints are tamperproof and sanatize their inputs properly, prevent SQL Injection
+9. Never set the price of items in the app's source code, client should be dumb
+	
